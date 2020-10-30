@@ -20,35 +20,37 @@ from django.urls import reverse_lazy
 """
 
 
-
 class PostListView(generic.ListView):
     model = Post
-    print(Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date'))
+    print(Post.objects.filter(
+        published_date__lte=timezone.now()).order_by('published_date'))
     template_name = 'blog/post_list.html'
 
     """
     あらかじめ取得するデータのソート順を変えたり、フィルタリングして制御したい時もある。
     その時は、get_querysetメソッドをオーバーライドします。
     """
+
     def get_queryset(self):
         return Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
 
-post_list = PostListView.as_view()
-print("post_list:")
-print(post_list)
 
-class PostDetailView(generic.DetailView):  ## DetailViewは、pkをデフォルトで取ってきてくれる
+post_list = PostListView.as_view()
+
+
+class PostDetailView(generic.DetailView):  # DetailViewは、pkをデフォルトで取ってきてくれる
     model = Post
     template_name = 'blog/post_detail.html'
+
 
 post_detail = PostDetailView.as_view()
 
 
 class PostCreateView(generic.CreateView):
     model = Post
+    template_name = 'blog/post_edit.html'
     form_class = PostForm
     success_url = reverse_lazy("post:post_list")
-    template_name = 'blog/post_edit.html'
 
 
 post_new = PostCreateView.as_view()
@@ -61,8 +63,8 @@ class PostUpdateView(generic.UpdateView):
     """
 
     model = Post
-    form_class = PostForm
     template_name = 'blog/post_edit.html'
+    form_class = PostForm
 
     def get_success_url(self, **kwargs):
         """
@@ -75,7 +77,6 @@ class PostUpdateView(generic.UpdateView):
 
 
 post_edit = PostUpdateView.as_view()
-
 
 
 # def post_list(request):
