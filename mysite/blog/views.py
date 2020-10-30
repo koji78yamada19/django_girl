@@ -7,13 +7,27 @@ from django.shortcuts import redirect
 from django.views import generic
 from django.urls import reverse_lazy
 
+"""
+ビュー関数の書き方
+・関数で書く
+・クラスで書いて、ビュー関数に変換する
+
+・一般に、関数ベースのビューは理解しやすいが再利用しにくい
+・クラスベースのビューはクラスを再利用することで短く書けるケースがある。
+一方で、コードの見通しが悪くなってします。
+←多くの事をDjangoが裏でやってくれるので何が行われているかわかりづらい
+
+"""
+
+
+
 class PostListView(generic.ListView):
     model = Post
     print(Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date'))
     template_name = 'blog/post_list.html'
 
     """
-    あらかじめ取得するデータのソート順を変えたり、フィルタリングして制御したい時もあるでしょう。
+    あらかじめ取得するデータのソート順を変えたり、フィルタリングして制御したい時もある。
     その時は、get_querysetメソッドをオーバーライドします。
     """
     def get_queryset(self):
@@ -33,7 +47,7 @@ post_detail = PostDetailView.as_view()
 class PostCreateView(generic.CreateView):
     model = Post
     form_class = PostForm
-    success_url = reverse_lazy("post:post_list") # 要変更
+    success_url = reverse_lazy("post:post_list")
     template_name = 'blog/post_edit.html'
 
 
@@ -43,7 +57,7 @@ post_new = PostCreateView.as_view()
 class PostUpdateView(generic.UpdateView):
     """
     編集のビューでは以下のように動作する
-    GET 編集う画面
+    GET 編集画面
     """
 
     model = Post
