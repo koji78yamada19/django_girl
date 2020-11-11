@@ -7,6 +7,8 @@ from django.shortcuts import redirect
 from django.views import generic
 from django.urls import reverse_lazy
 
+import requests
+
 """
 ビュー関数の書き方
 ・関数で書く
@@ -22,8 +24,8 @@ from django.urls import reverse_lazy
 
 class PostListView(generic.ListView):
     model = Post
-    print(Post.objects.filter(
-        published_date__lte=timezone.now()).order_by('published_date'))
+    # print(Post.objects.filter(
+    #     published_date__lte=timezone.now()).order_by('published_date'))
     template_name = 'blog/post_list.html'
 
     """
@@ -80,17 +82,20 @@ post_edit = PostUpdateView.as_view()
 
 
 # def post_list(request):
-#     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-#     print(posts)
+#     posts = Post.objects.filter(
+#         published_date__lte=timezone.now()).order_by('published_date')
 #     return render(request, 'blog/post_list.html', {'posts': posts})
+
 
 # def post_detail(request, pk):
 #     post = get_object_or_404(Post, pk=pk)
 #     return render(request, 'blog/post_detail.html', {'post': post})
 
+
 # def post_new(request):
 #     form = PostForm()
 #     return render(request, 'blog/post_edit.html', {'form': form})
+
 
 # def post_new(request):
 #     if request.method == "POST":
@@ -104,6 +109,7 @@ post_edit = PostUpdateView.as_view()
 #     else:
 #         form = PostForm()
 #     return render(request, 'blog/post_edit.html', {'form': form})
+
 
 # def post_edit(request, pk):
 #     post = get_object_or_404(Post, pk=pk)
