@@ -7,8 +7,6 @@ from django.shortcuts import redirect
 from django.views import generic
 from django.urls import reverse_lazy
 
-import requests
-
 """
 ビュー関数の書き方
 ・関数で書く
